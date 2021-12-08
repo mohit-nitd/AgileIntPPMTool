@@ -1,8 +1,9 @@
 package io.agileintelligence.ppmtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
