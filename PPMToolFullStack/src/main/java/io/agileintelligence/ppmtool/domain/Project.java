@@ -1,6 +1,8 @@
 package io.agileintelligence.ppmtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.jdbc.object.UpdatableSqlQuery;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.validation.constraints.Size;
@@ -28,6 +30,7 @@ public class Project {
     private Date end_date;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
+    @Column(updatable = false)
     private Date created_At;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
