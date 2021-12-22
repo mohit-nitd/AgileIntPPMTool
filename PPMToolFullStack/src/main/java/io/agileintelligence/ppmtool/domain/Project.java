@@ -1,10 +1,9 @@
 package io.agileintelligence.ppmtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.jdbc.object.UpdatableSqlQuery;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -16,27 +15,26 @@ public class Project {
     private Long id;
     @NotBlank(message = "Project name is required")
     private String projectName;
-    @NotBlank(message = "Project identifier is required")
-    @Size(min = 4, max = 5, message = "please use 4 to 5 characters")
+    @NotBlank(message = "Project Identifier is required")
+    @Size(min = 4, max = 5, message = "Please use 4 to 5 characters")
     @Column(updatable = false, unique = true)
-
     private String projectIdentifier;
     @NotBlank(message = "Project description is required")
-
     private String description;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date start_date;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
-
     @JsonFormat(pattern = "yyyy-mm-dd")
     @Column(updatable = false)
     private Date created_At;
-
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
-    // Constructor
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    //
+    private Backlog backlog;
+
     public Project() {
     }
 
@@ -104,17 +102,23 @@ public class Project {
         this.updated_At = updated_At;
     }
 
-    //store date of object creation
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.created_At = new Date();
     }
 
-    //store date of object update
     @PreUpdate
     protected void onUpdate() {
         this.updated_At = new Date();
     }
 
-
 }
+
